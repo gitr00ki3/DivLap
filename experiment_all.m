@@ -1,7 +1,12 @@
 function [et,eu,alphas,bias,sup_vecs]=experiment_all(method,...
     gamma_A, gamma_I, NN, G_WEIGHT, GW_PARAM, file)
-
-load(file);
+if ~exist([file '.mat'],'file')
+    fprintf('%s.mat does not exists',file);
+    et=inf;eu=inf;
+    return;
+else
+    load(file);
+end
 [MAX,n]=size(train);
 if MAX<n
     MAX=n;

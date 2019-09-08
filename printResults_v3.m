@@ -1,11 +1,13 @@
 clear;
 load result_v4.mat;
 clearvars -except elapdiv elapemr24 elapemr72 elapnorm;
+findex=[1,3,6,2,4,8,5,7,9];
 %%
 stdw = 1;
 m=1;
 tbs=cell(length(elapdiv),4);
-for i=1:length(elapdiv)
+for loop=1:length(elapdiv)
+    i=findex(loop);
     for j=1:length(elapdiv(i).methods)
         meanEt=[]; stdEt=[]; meanEu=[]; stdEu=[];
         for k=1:length(elapdiv(i).methods(j).weights)
@@ -38,7 +40,10 @@ for i=1:length(elapdiv)
                 temp=['$ ' num2str(meanEt(l)) ' $\\$ \pm' ...
                     num2str(stdEt(l)) ' $'];
             end
-            tabEt{1}=[tabEt{1} ' & \makecell{' temp '}'];
+            temp=strrep(temp,' $\\$ ',''); % Comment if new line is req.
+            tabEt{1}=[tabEt{1} ' & ' temp];
+%             tabEt{1}=[tabEt{1} ' & \makecell{' temp '}'];
+
             if minEu==l
                 temp=['$ \mathbf{' num2str(meanEu(l)) '} $\\$ \pm' ...
                     num2str(stdEu(l)) ' $'];
@@ -46,7 +51,9 @@ for i=1:length(elapdiv)
                 temp=['$ ' num2str(meanEu(l)) ' $\\$ \pm' ...
                     num2str(stdEu(l)) ' $'];
             end
-            tabEu{1}=[tabEu{1} ' & \makecell{' temp '}'];
+            temp=strrep(temp,' $\\$ ',''); % Comment if new line is req.
+            tabEu{1}=[tabEu{1} ' & ' temp];
+%             tabEu{1}=[tabEu{1} ' & \makecell{' temp '}'];
         end
         index=((j-1)*j)+1;
         tbs{m,index}=[elapdiv(i).fname ' & ' elapdiv(i).methods(j).method ' & Test'...
